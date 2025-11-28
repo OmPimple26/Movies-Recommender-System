@@ -35,12 +35,29 @@ import numpy as np
 import pandas as pd
 import requests
 
+# def fetch_poster(movie_id):
+#     api_key = st.secrets["TMDB_API_KEY"]
+#     response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key={api_key}&language=en-US'.format(movie_id))
+#     data = response.json()
+#     # print(data)
+#     return "https://image.tmdb.org/t/p/w500/" + data['poster_path']
+
 def fetch_poster(movie_id):
+    """
+    Fetch movie poster URL from TMDB using API key stored in Streamlit secrets.
+    """
     api_key = st.secrets["TMDB_API_KEY"]
-    response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key={api_key}&language=en-US'.format(movie_id))
-    data = response.json()
-    # print(data)
-    return "https://image.tmdb.org/t/p/w500/" + data['poster_path']
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US"
+    
+    try:
+        response = requests.get(url)
+        data = response.json()
+        if "poster_path" in data and data["poster_path"]:
+            return "https://image.tmdb.org/t/p/w500/" + data["poster_path"]
+        else:
+            return "https://via.placeholder.com/500x750?text=No+Image"
+    except:
+        return "https://via.placeholder.com/500x750?text=Error"
 
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
