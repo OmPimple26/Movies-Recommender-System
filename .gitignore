@@ -1,0 +1,15 @@
+# Ignore virtual environment
+venv/
+.env
+*.pyc
+__pycache__/
+
+# Streamlit secrets (do not upload local copy)
+.streamlit/secrets.toml
+
+# VSCode settings
+.vscode/
+
+# Mac / Windows system files
+.DS_Store
+Thumbs.db
